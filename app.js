@@ -21,7 +21,7 @@ const menu = [
     category: "shakes",
     price: 6.99,
     img: "./images/item-3.jpeg",
-    desc: `ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.`,
+    desc: `ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral`,
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ const menu = [
     category: "breakfast",
     price: 20.99,
     img: "./images/item-4.jpeg",
-    desc: `Shabby chic keffiyeh neutra snackwave pork belly shoreditch. Prism austin mlkshk truffaut, `,
+    desc: `Shabby chic keffiyeh neutra snackwave pork belly shoreditch. Prism austin mlkshk truffaut `,
   },
   {
     id: 5,
@@ -69,14 +69,45 @@ const menu = [
     category: "shakes",
     price: 16.99,
     img: "./images/item-9.jpeg",
-    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing`,
   },
 ];
 
 const sectionCenter = document.querySelector(".section-center");
 
+const filterBtns = document.querySelectorAll(".filter-btn");
+
 window.addEventListener("DOMContentLoaded", function () {
-  let displayMenu = menu.map(function (item) {
+  displayMenuItems(menu);
+  const categories = menu.reduce(
+    function (values, item) {
+      if (!values.includes(item.category)) {
+        values.push(item.category);
+      }
+      return values;
+    },
+    ["all"]
+  );
+});
+
+filterBtns.forEach(function (btn) {
+  btn.addEventListener("click", function (e) {
+    const category = e.currentTarget.dataset.id;
+    const menuCategory = menu.filter(function (menuItem) {
+      if (menuItem.category === category) {
+        return menuItem;
+      }
+    });
+    if (category === "all") {
+      displayMenuItems(menu);
+    } else {
+      displayMenuItems(menuCategory);
+    }
+  });
+});
+
+function displayMenuItems(menuItems) {
+  let displayMenu = menuItems.map(function (item) {
     return `<article class="menu-item">
           <img
             src=${item.img}
@@ -96,4 +127,4 @@ window.addEventListener("DOMContentLoaded", function () {
   });
   displayMenu = displayMenu.join("");
   sectionCenter.innerHTML = displayMenu;
-});
+}
